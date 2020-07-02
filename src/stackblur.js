@@ -422,12 +422,20 @@ function processCanvasRGB (canvas, topX, topY, width, height, radius) {
   if (isNaN(radius) || radius < 1) { return; }
   radius |= 0;
 
-  let imageData = getImageDataFromCanvas(canvas, topX, topY, width, height);
-  imageData = processImageDataRGB(
-    imageData, topX, topY, width, height, radius
-  );
 
-  canvas.getContext('2d').putImageData(imageData, topX, topY);
+  const promise = new Promise((resolve) => {
+    let imageData = getImageDataFromCanvas(canvas, topX, topY, width, height);
+    imageData = processImageDataRGB(
+      imageData, topX, topY, width, height, radius
+    );
+
+    setTimeout(() => {
+      canvas.getContext('2d').putImageData(imageData, topX, topY);
+      resolve('Success!');
+    }, 5000);
+  })
+
+  return promise;
 }
 
 /**
