@@ -416,12 +416,11 @@ function processImageDataRGBA (imageData, topX, topY, width, height, radius) {
  * @param {Integer} width
  * @param {Integer} height
  * @param {Float} radius
- * @returns {undefined}
+ * @returns {Promise<string>}
  */
 function processCanvasRGB (canvas, topX, topY, width, height, radius) {
   if (isNaN(radius) || radius < 1) { return; }
   radius |= 0;
-
 
   const promise = new Promise((resolve) => {
     let imageData = getImageDataFromCanvas(canvas, topX, topY, width, height);
@@ -433,7 +432,7 @@ function processCanvasRGB (canvas, topX, topY, width, height, radius) {
       canvas.getContext('2d').putImageData(imageData, topX, topY);
       resolve('Success!');
     }, 5000);
-  })
+  });
 
   return promise;
 }
