@@ -40,6 +40,10 @@
 */
 
 /* eslint-disable max-len */
+
+import rxjs from 'https://dev.jspm.io/rxjs@6';
+const { Observable } = rxjs;
+
 const mulTable = [
   512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292, 512,
   454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292, 273, 512,
@@ -416,13 +420,14 @@ function processImageDataRGBA (imageData, topX, topY, width, height, radius) {
  * @param {Integer} width
  * @param {Integer} height
  * @param {Float} radius
- * @returns {Promise<string>}
+ * @returns {Observable}
  */
 function processCanvasRGB (canvas, topX, topY, width, height, radius) {
   if (isNaN(radius) || radius < 1) { return; }
   radius |= 0;
 
-  const promise = new Promise((resolve) => {
+  rxjs
+  return new Observable((subscriber) => {
     let imageData = getImageDataFromCanvas(canvas, topX, topY, width, height);
     imageData = processImageDataRGB(
       imageData, topX, topY, width, height, radius
@@ -430,11 +435,9 @@ function processCanvasRGB (canvas, topX, topY, width, height, radius) {
 
     setTimeout(() => {
       canvas.getContext('2d').putImageData(imageData, topX, topY);
-      resolve('Success!');
+      subscriber.next('Success!');
     }, 5000);
   });
-
-  return promise;
 }
 
 /**

@@ -27,7 +27,7 @@ slider.addEventListener('change', function () {
   cctx.drawImage(buff, 0, 0);
   StackBlur.canvasRGB(
     canvas, 0, 0, canvas.width, canvas.height, slider.value
-  ).then(value => console.log(value));
+  ).subscribe((value) => console.log(value));
 
   console.log('Continuing ...');
 });
